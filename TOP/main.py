@@ -3,7 +3,7 @@ from constraints import status
 from heuristic import heu1
 from variables_class import Solution
 from metaheuristic import metaN1,metaN2,metaN3
-from plot import plotPlan
+#from plot import plotPlan
 import numpy as np
 
 def plan(days):
