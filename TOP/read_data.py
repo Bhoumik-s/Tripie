@@ -14,7 +14,6 @@ def read(file):
         for j in range (worksheet.ncols-1):
             data[i][j]=worksheet.cell(i+1,j+1).value
         name.append(str(worksheet.cell(i+1,0).value))
-    print name
     return (data,name)
 
 def find_segments(points):

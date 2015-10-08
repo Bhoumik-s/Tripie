@@ -1,5 +1,6 @@
-from read_data import read
-from Google_distance_API import duration_mat
+from main import plan
+
+x=plan("Mumbai",2,540,1440,500)
 
 file="Mumbai.xlsx"
 data=read(file)

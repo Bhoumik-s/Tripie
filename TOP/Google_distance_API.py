@@ -19,8 +19,10 @@ def duration_mat(coordinates):
 	params = OrderedDict(
 		origins= places,
 	    destinations=places,
-	    #key='AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg'
-	    key='AIzaSyD78YNBKealbLE70kG39MPvhYeS2Jv-1Eo'
+	    key='AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg'
+	    #key='AIzaSyD78YNBKealbLE70kG39MPvhYeS2Jv-1Eo'
+	    #key='AIzaSyDNKOkptxcE7y_kxb4SDJKEHMin9RjeDjo'
+	    #key='AIzaSyDxqD0Xsl10vU8cOLD9dPQ8jk0vGaLDX7A'
 	)
 	#print params
 	resp = requests.get(url=url, params=params)

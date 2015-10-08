@@ -51,7 +51,7 @@ def plan(city,days,start_time,end_time,budget):
 	print best_sol.pi
 	i=0
 	for routes in (best_sol.R):
-		no_of_locations.append(best_sol.R.shape[0])
+		no_of_locations.append(routes.shape[0])
 		for destination in (routes):
 			names.append(d.names[destination])
 			latitudes.append(d.points[destination][0])
@@ -60,6 +60,7 @@ def plan(city,days,start_time,end_time,budget):
 			end.append(best_sol.pi[destination][i]+d.T[destination])
 			free.append(best_sol.pi[destination][i]-best_sol.a[destination][i])
 		i=i+1
+	print names
 	return (no_of_locations,names,latitudes,longitudes,start,end,free)
 
 #plotPlan(best_sol.R,d.points,d.m)
