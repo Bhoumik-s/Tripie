@@ -8,6 +8,8 @@ class Solution:
         self.y=np.zeros((d.n+2,d.m))
         self.pi=np.zeros((d.n+2,d.m))
         self.a=np.zeros((d.n+2,d.m))
+        self.a[0,:]=d.Tmin
+        self.pi[0,:]=d.Tmin
         self.not_visited=np.array(range(1,d.n+1))
     
     def update(self,R,d):

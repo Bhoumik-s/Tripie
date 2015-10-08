@@ -8,11 +8,14 @@ def read(file):
     file_path = os.path.join(module_dir, file)
     book = xlrd.open_workbook(file_path)
     worksheet = book.sheet_by_index(0)
-    data=np.zeros((worksheet.nrows-1,worksheet.ncols),dtype=int)
+    data=np.zeros((worksheet.nrows-1,worksheet.ncols-1))
+    name=[]
     for i in range (worksheet.nrows-1):
-        for j in range (worksheet.ncols):
-            data[i][j]=worksheet.cell(i+1,j).value
-    return data
+        for j in range (worksheet.ncols-1):
+            data[i][j]=worksheet.cell(i+1,j+1).value
+        name.append(str(worksheet.cell(i+1,0).value))
+    print name
+    return (data,name)
 
 def find_segments(points):
     distance=np.zeros((points.shape[0],points.shape[0]))

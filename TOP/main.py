@@ -6,11 +6,11 @@ from metaheuristic import metaN1,metaN2,metaN3
 #from plot import plotPlan
 import numpy as np
 
-def plan(days):
+def plan(city,days,start_time,end_time,budget):
 
-	file="data.xlsx"
+	file=city+".xlsx"
 	
-	d=Data(file,days,1236,100)
+	d=Data(file,days,start_time,end_time,budget)
 	empty_route=np.array([[0,d.n+1]]*d.m)
 	rmvd=[[]]*d.m
 
@@ -40,8 +40,27 @@ def plan(days):
 			else:
 				metaheu=metaheu+1
 		iterations=iterations+1
-
-	return best_sol.R
+	no_of_locations=[]
+	names=[]
+	latitudes=[]
+	longitudes=[]
+	start=[]
+	end=[]
+	free=[]
+	print best_sol.R
+	print best_sol.pi
+	i=0
+	for routes in (best_sol.R):
+		no_of_locations.append(best_sol.R.shape[0])
+		for destination in (routes):
+			names.append(d.names[destination])
+			latitudes.append(d.points[destination][0])
+			longitudes.append(d.points[destination][1])
+			start.append(best_sol.pi[destination][i])
+			end.append(best_sol.pi[destination][i]+d.T[destination])
+			free.append(best_sol.pi[destination][i]-best_sol.a[destination][i])
+		i=i+1
+	return (no_of_locations,names,latitudes,longitudes,start,end,free)
 
 #plotPlan(best_sol.R,d.points,d.m)
 
