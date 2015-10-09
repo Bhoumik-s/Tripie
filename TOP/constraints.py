@@ -52,11 +52,11 @@ def status(sol,d):
 
     def constraint4():
         boolean=True
+        sum1=0
         for k in range(d.m):
-            sum1=0
             for i in range(1,d.n+1):
                 sum1=sum1+d.cost[i]*y[i,k]
-            boolean=(boolean and (sum1<=d.Q))
+        boolean=(boolean and (sum1<=d.Q))
         if boolean:
             return constraint5()
         else:
