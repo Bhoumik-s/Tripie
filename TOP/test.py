@@ -1,9 +1,9 @@
-from main import plan
+from collections import OrderedDict
 
-x=plan("Mumbai",2,540,1440,500)
-
-file="Mumbai.xlsx"
-data=read(file)
-name=data[1]
-points=data[0]
-#distance_mat(points[0:-1,:2])
+alist = []
+for x in range(100):
+    adict = {}
+    adict["1"]=x
+    adict["2"]=x+1
+    alist.append(adict.copy())
+print(alist)
