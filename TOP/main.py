@@ -5,6 +5,8 @@ from variables_class import Solution
 from metaheuristic import metaN1,metaN2,metaN3
 #from plot import plotPlan
 import numpy as np
+import time
+
 
 def make_plan(city,days,start_time,end_time,budget):
 
@@ -19,8 +21,8 @@ def make_plan(city,days,start_time,end_time,budget):
 	best_sol=new_sol
 	best_p=status(new_sol,d)[1]
 	iterations=0
-	while iterations<10:
-		#print iterations
+	start_time = time.time()
+	while (iterations<20 and (time.time() - start_time)<30):
 		metaheu=1
 		while(metaheu<=3):
 			if metaheu==1:
@@ -58,6 +60,7 @@ def make_plan(city,days,start_time,end_time,budget):
 			end.append(best_sol.pi[destination][i]+d.T[destination])
 			free.append(best_sol.pi[destination][i]-best_sol.a[destination][i])
 		i=i+1
+	print time.time()
 	return (no_of_locations,names,latitudes,longitudes,start,end,free)
 
 #plotPlan(best_sol.R,d.points,d.m)

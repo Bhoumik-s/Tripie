@@ -1,9 +1,3 @@
-from collections import OrderedDict
-
-alist = []
-for x in range(100):
-    adict = {}
-    adict["1"]=x
-    adict["2"]=x+1
-    alist.append(adict.copy())
-print(alist)
+from main import make_plan
+x=make_plan("Mumbai",2,540,1440,1000)
+print x[1]
