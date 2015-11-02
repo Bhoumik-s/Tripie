@@ -5,14 +5,14 @@ def status(sol,d):
     y=sol.y
     pi=sol.pi
     
-    def objective():
+    def objective():   # Total Happiness
         f=0
         for i in range(d.m):
             for j in range (1,d.n+1):
                 f=f+d.happiness[j]*y[j,i]
         return f
 
-    def constraint7():
+    def constraint7():  # 
         boolean=True
         for k in range(d.m):
             sum1=0
