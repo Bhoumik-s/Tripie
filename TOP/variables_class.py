@@ -1,5 +1,5 @@
 import numpy as np
-#R=np.array([[0,5,16,6,13,21],[0,12,9,3,4,21]])
+#R=np.array([[0,5,16,6,13,21],[0,12,9,3,4,21]]).
 
 class Solution:
     
