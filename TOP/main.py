@@ -22,7 +22,7 @@ def make_plan(city,days,start_time,end_time,budget):
 	best_p=status(new_sol,d)[1]
 	iterations=0
 	start_time = time.time()
-	while (iterations<20 and (time.time() - start_time)<30):
+	while (iterations<10 and (time.time() - start_time)<30):
 		metaheu=1
 		while(metaheu<=3):
 			if metaheu==1:
