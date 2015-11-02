@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-import TOP
+from Path import views
+
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^TOP/', include('TOP.urls')),
-    url(r'^Path/', include('Path.urls'))
+    url(r'^$', views.home,name="home"),
 ]
