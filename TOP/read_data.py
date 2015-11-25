@@ -16,11 +16,3 @@ def read(file):
         name.append(str(worksheet.cell(i+1,0).value))
     return (data,name)
 
-def find_segments(points):
-    distance=np.zeros((points.shape[0],points.shape[0]))
-    for i in range(points.shape[0]):
-        for j in range (i+1, points.shape[0]):
-            distance[i][j]=pow(pow(points[i][0]-points[j][0],2)+pow(points[i][1]-points[j][1],2),0.5)
-            distance[j][i]=distance[i][j]
-    return distance
-

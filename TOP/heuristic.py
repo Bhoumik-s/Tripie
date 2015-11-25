@@ -17,14 +17,14 @@ def insert_element(R,element,position):
             j=j+1
     return np.array(new_R)
 
-def cost1(sol,temp,para,i,j,v,d):
-    N1=float(para[0]*(d.t[sol.R[i][j-1],v]+d.t[v,sol.R[i][j]]-d.t[sol.R[i][j-1],sol.R[i][j]] + para[2]*d.T[v]))
+def cost1(sol,temp,para,i,j,v,data):
+    N1=float(para[0]*(data.travelTime[sol.R[i][j-1],v]+data.travelTime[v,sol.R[i][j]]-data.travelTime[sol.R[i][j-1],sol.R[i][j]] + para[2]*data.serviceTime[v]))
     #print temp.pi[temp.R[i][j+1],i]
     N2=float(para[1]*(temp.pi[temp.R[i][j+1],i]-temp.pi[sol.R[i][j],i]))
-    D=float(d.happiness[v]**para[3])
-    return float((N1+N2)/D)
+    data=float(data.happiness[v]**para[3])
+    return float((N1+N2)/data)
 
-def heu1(sol,rmvd,d):
+def heu1(sol,rmvd,data):
     sol_temp=sol
     not_visited=sol_temp.not_visited
     not_visited=np.union1d(not_visited,[item for sublist in rmvd for item in sublist])
@@ -38,9 +38,9 @@ def heu1(sol,rmvd,d):
             min_cost=999
             for v in (to_be_visited):
                 R_temp=insert_element(sol_temp.R,v,[i,j])
-                temp=Solution(R_temp,d)
-                cost=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,d)
-                if (cost<min_cost and status(temp,d)[0]):
+                temp=Solution(R_temp,data)
+                cost=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,data)
+                if (cost<min_cost and status(temp,data)[0]):
                     min_cost=cost
                     flag=1
                     update=temp
@@ -56,9 +56,9 @@ def heu1(sol,rmvd,d):
             min_cost=999
             for v in (rmvd[i]):
                 R_temp=insert_element(sol_temp.R,v,[i,j])
-                temp=Solution(R_temp,d)
-                cost=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,d)
-                if (cost<min_cost and status(temp,d)[0]):
+                temp=Solution(R_temp,data)
+                cost=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,data)
+                if (cost<min_cost and status(temp,data)[0]):
                     min_cost=cost
                     flag=1
                     update=temp
