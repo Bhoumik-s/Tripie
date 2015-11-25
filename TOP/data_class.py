@@ -3,16 +3,17 @@ from Google_distance_API import duration_mat
 import numpy as np
 
 #DataClass fetches all constants for the trip
+# time = minutes since 6AM in the morning
 
 class DataClass():
 	def __init__(self,file,DAYS,TMIN,TMAX,BUDGET):
 		
 		file_data=read(file)
 		data=file_data[0]
-		self.NAMES=file_data[1]
+		self.NAMES=file_data[1] #Names of places to visit
 		self.COORDINATES=data[:,:2]
-		self.TRAVELTIME=duration_mat(self.COORDINATES[0:-1,0:2])
-		self.HAPPINESS=data[:,2]
+		self.TRAVELTIME=duration_mat(self.COORDINATES[0:-1,0:2]) #Travel time between any two places
+		self.HAPPINESS=data[:,2] 
 		self.COST=data[:,3]
 		self.OPENTIME=data[:,4]
 		self.OPENTIME[0]=TMIN

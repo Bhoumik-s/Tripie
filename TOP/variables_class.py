@@ -1,5 +1,19 @@
 import numpy as np
-#R=np.array([[0,5,16,6,13,21],[0,12,9,3,4,21]]).
+
+# it takes route as an input
+# e.g R=[[0,1,5,7,9,0],[0,6,4,11,0]]
+
+# This class stores various properties of a solution
+# These properties decides feasibiity and objective of solution
+
+# x(i,j,k) = 1 if visit to i is followed by j on day k
+# y(i,k) = 1 if i is visited on day k
+# pi(i,k) = begining time of destination i on day k
+#         = 0 if i is not visited on day k
+# (time = minutes since 6AM in the morning )
+# a(i,k) = arrival time at i on day k
+#        = 0 if i is not visited on day k
+# not_visited = list of places not visited during whole trip
 
 class Solution:
     
@@ -11,6 +25,10 @@ class Solution:
         self.a[0,:]=data.TMIN
         self.pi[0,:]=data.TMIN
         self.not_visited=np.array(range(1,data.n+1))
+
+    # not_visited is set diff of All places and places in R
+    # a = pi(previous) + ServiceTime(previous) + TravelTime
+    # pi = max (a, StartTime)
     
     def update(self,R,data):
         self.R=R
@@ -20,14 +38,14 @@ class Solution:
             for j in range (len(R[i])-1):
                 self.x[R[i][j],R[i][j+1],i]=1
                 self.y[R[i][j],i]=1
-                self.a[R[i][j+1],i]=self.pi[R[i][j],i]+data.SERVICETIME[R[i][j]]+data.TRAVELTIME[R[i][j],R[i][j+1]]
+                self.a[R[i][j+1],i]=(self.pi[R[i][j],i]+data.SERVICETIME[R[i][j]]
+                                    +data.TRAVELTIME[R[i][j],R[i][j+1]])
                 self.pi[R[i][j+1],i]=max(self.a[R[i][j+1],i],data.OPENTIME[R[i][j+1]])
             self.y[R[i][-1],i]=1
+
+    # 
     
     def __init__(self,R,data):
         self.R=R
-        if np.sum(R!=0):
-           self.update(R,data)
-        else:
-            self.reset(data)
+        self.update(R,data)
 

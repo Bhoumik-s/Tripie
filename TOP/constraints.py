@@ -80,7 +80,7 @@ def status(sol,data):
         else:
             return [False,2]
 
-    def CloseTimetraint():
+    def CloseTimeConstraint():
         boolean=True
         for k in range(data.DAYS):
             for i in range (data.n+2):
@@ -91,5 +91,5 @@ def status(sol,data):
             return [False,1]
 
     
-    return (CloseTimetraint()) 
+    return (CloseTimeConstraint()) 
     
