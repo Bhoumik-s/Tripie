@@ -1,27 +1,27 @@
 import numpy as np
 
-def status(sol,d):
+def status(sol,data):
     x=sol.x
     y=sol.y
     pi=sol.pi
     
     def objective():   # Total Happiness
         f=0
-        for i in range(data.days):
+        for i in range(data.DAYS):
             for j in range (1,data.n+1):
-                f=f+data.happiness[j]*y[j,i]
+                f=f+data.HAPPINESS[j]*y[j,i]
         return f
 
     def constraint7():  # 
         boolean=True
-        for k in range(data.days):
+        for k in range(data.DAYS):
             sum1=0
             for i in range(0,data.n+1):
                 sum2=0
                 for j in range(1,data.n+2):
-                    sum2=sum2+data.t[i,j]*x[i,j,k]
-                sum1=sum1+data.serviceTime[i]*y[i,k]+sum2
-            boolean=(boolean and (sum1<=data.Tmax))
+                    sum2=sum2+data.TRAVELTIME[i,j]*x[i,j,k]
+                sum1=sum1+data.SERVICETIME[i]*y[i,k]+sum2
+            boolean=(boolean and (sum1<=data.TMAX))
         if boolean:
             return [boolean,objective()]
         else:
@@ -31,8 +31,8 @@ def status(sol,d):
         boolean=True
         for i in range(data.n+2):
             for j in range(data.n+2):
-                for k in range (data.days):
-                    boolean=(boolean and (pi[i,k]+data.serviceTime[i]+data.t[i,j]-pi[j,k]<=data.M*(1-x[i,j,k])))
+                for k in range (data.DAYS):
+                    boolean=(boolean and (pi[i,k]+data.SERVICETIME[i]+data.TRAVELTIME[i,j]-pi[j,k]<=data.M*(1-x[i,j,k])))
         if boolean:
             return constraint7()
         else:
@@ -41,7 +41,7 @@ def status(sol,d):
     def constraint5():
         boolean=True
         for i in range(1,data.n+1):
-            for k in range(data.days):
+            for k in range(data.DAYS):
                 sum1=np.sum(x[0:data.n+1,i,k])
                 sum2=np.sum(x[i,1:data.n+2,k])
                 boolean=(boolean and ((sum1==sum2) and (sum1==y[i,k])))
@@ -53,10 +53,10 @@ def status(sol,d):
     def constraint4():
         boolean=True
         sum1=0
-        for k in range(data.days):
+        for k in range(data.DAYS):
             for i in range(1,data.n+1):
-                sum1=sum1+data.cost[i]*y[i,k]
-        boolean=(boolean and (sum1<=data.budget))
+                sum1=sum1+data.COST[i]*y[i,k]
+        boolean=(boolean and (sum1<=data.BUDGET))
         if boolean:
             return constraint5()
         else:
@@ -75,16 +75,16 @@ def status(sol,d):
     def constraint2():
         sum1=np.sum(x[0,1:data.n+2,:])
         sum2=np.sum(x[0:data.n+1,data.n+1,:])
-        if (((sum1==sum2) and (sum1==data.days))):
+        if (((sum1==sum2) and (sum1==data.DAYS))):
             return constraint3()
         else:
             return [False,2]
 
     def constraint1():
         boolean=True
-        for k in range(data.days):
+        for k in range(data.DAYS):
             for i in range (data.n+2):
-                boolean=(boolean and (pi[i,k]<=data.closeTime[i]))
+                boolean=(boolean and (pi[i,k]<=data.CLOSETIME[i]))
         if boolean:
             return constraint2()
         else:

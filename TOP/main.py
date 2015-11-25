@@ -8,13 +8,13 @@ import time
 
 #Algorithm Source: https://lirias.kuleuven.be/bitstream/123456789/276759/1/Garcia_etalv3_FINAL.pdf
 
-def make_plan(city,days,tMin,tMax,budget):
+def make_plan(city,DAYS,tMin,tMax,BUDGET):
 
 	file=city+".xlsx"
 	
-	data=DataClass(file,days,tMin,tMax,budget)
-	empty_route=np.array([[0,data.n+1]]*data.days)
-	rmvd=[[]]*data.days
+	data=DataClass(file,DAYS,tMin,tMax,BUDGET)
+	empty_route=np.array([[0,data.n+1]]*data.DAYS)
+	rmvd=[[]]*data.DAYS
 
 	sol=Solution(empty_route,data)
 	new_sol= heu1(sol,rmvd,data)
@@ -53,17 +53,17 @@ def make_plan(city,days,tMin,tMax,budget):
 	for routes in (best_sol.R):
 		no_of_locations.append(routes.shape[0])
 		for destination in (routes):
-			names.append(data.names[destination])
-			latitudes.append(data.coordinate[destination][0])
-			longitudes.append(data.coordinate[destination][1])
+			names.append(data.NAMES[destination])
+			latitudes.append(data.COORDINATES[destination][0])
+			longitudes.append(data.COORDINATES[destination][1])
 			start.append(best_sol.pi[destination][i])
-			end.append(best_sol.pi[destination][i]+data.serviceTime[destination])
+			end.append(best_sol.pi[destination][i]+data.SERVICETIME[destination])
 			free.append(best_sol.pi[destination][i]-best_sol.a[destination][i])
 		i=i+1
 	print time.time()
 	return (no_of_locations,names,latitudes,longitudes,start,end,free)
 
-#plotPlan(best_sol.R,data.coordinate,data.days)
+#plotPlan(best_sol.R,data.COORDINATES,data.DAYS)
 
 
 
