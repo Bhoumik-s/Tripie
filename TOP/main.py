@@ -1,5 +1,5 @@
 from data_class import DataClass
-from constraints import status
+from constraints import Status
 from heuristic import heu1
 from variables_class import Solution
 from metaheuristic import metaN1,metaN2,metaN3
@@ -19,7 +19,7 @@ def make_plan(city,DAYS,tMin,tMax,BUDGET):
 	sol=Solution(empty_route,data)
 	new_sol= heu1(sol,rmvd,data)
 	best_sol=new_sol
-	best_p=status(new_sol,data)[1]
+	best_p=Status(new_sol,data)[1]
 	iterations=0
 	start_time = time.time()
 	while (iterations<10 and (time.time() - start_time)<30):
@@ -34,7 +34,7 @@ def make_plan(city,DAYS,tMin,tMax,BUDGET):
 			sol=Solution(meta[0],data)
 			rmvd=meta[1]
 			new_sol=heu1(sol,rmvd,data)
-			new_p=status(new_sol,data)[1]
+			new_p=Status(new_sol,data)[1]
 			if new_p>best_p:
 				best_p=new_p
 				best_sol=new_sol

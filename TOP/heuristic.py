@@ -1,7 +1,7 @@
 import numpy as np
 from variables_class import Solution
 from read_data import read
-from constraints import status
+from constraints import Status
 
 
 def insert_element(R,element,position):
@@ -40,7 +40,7 @@ def heu1(sol,rmvd,data):
                 R_temp=insert_element(sol_temp.R,v,[i,j])
                 temp=Solution(R_temp,data)
                 COST=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,data)
-                if (COST<min_cost and status(temp,data)[0]):
+                if (COST<min_cost and Status(temp,data)[0]):
                     min_cost=COST
                     flag=1
                     update=temp
@@ -58,7 +58,7 @@ def heu1(sol,rmvd,data):
                 R_temp=insert_element(sol_temp.R,v,[i,j])
                 temp=Solution(R_temp,data)
                 COST=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,data)
-                if (COST<min_cost and status(temp,data)[0]):
+                if (COST<min_cost and Status(temp,data)[0]):
                     min_cost=COST
                     flag=1
                     update=temp
