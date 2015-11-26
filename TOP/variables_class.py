@@ -22,8 +22,8 @@ class PlanVariables:
 		self.y=np.zeros((Data.n+2,Data.DAYS))
 		self.pi=np.zeros((Data.n+2,Data.DAYS))
 		self.a=np.zeros((Data.n+2,Data.DAYS))
-		self.a[0,:]=Data.TMIN
-		self.pi[0,:]=Data.TMIN
+		self.a[0]=Data.TMIN
+		self.pi[0]=Data.TMIN
 		self.notVisited=np.array(range(1,Data.n+1))
 
 	# notVisited is set diff of All places and places in route

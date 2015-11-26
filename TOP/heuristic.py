@@ -65,6 +65,8 @@ def Heuristic(Plan,rmvd,Data):
 					minCost=cost
 					flag=1
 					update=tempPlan
+				#else:
+				#	print Status(tempPlan,Data)
 
 			if flag==1:
 				j=0

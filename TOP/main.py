@@ -6,18 +6,18 @@ from metaheuristic import MetaH1,MetaH2,MetaH3
 import numpy as np
 import time
 
-MAXITERATIONS=50
+MAXITERATIONS=10
 
 # Algorithm Source: https://lirias.kuleuven.be/bitstream/123456789/276759/1/Garcia_etalv3_FINAL.pdf
 # Initial feasible solution is created using HEU
 # Elements are removed using MetaH#
 # New Plan is made using heu
 
-def make_plan(city,DAYS,tMin,tMax,BUDGET):
+def make_plan(city,DAYS,TMIN,TMAX,BUDGET):
 
 	file=city+".xlsx"
 	
-	Data=DataClass(file,DAYS,tMin,tMax,BUDGET)
+	Data=DataClass(file,DAYS,TMIN,TMAX,BUDGET)
 	emptyRoute=np.array([[0,Data.n+1]]*Data.DAYS)
 	rmvd=[[]]*Data.DAYS
 

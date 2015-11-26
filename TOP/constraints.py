@@ -26,34 +26,34 @@ def Status(Plan,Data):
 		if boolean:
 			return [boolean,Objective()]
 		else:
+			return [False,3]
+
+	# for each day time to return should be less than T_max
+	# Return time = arrival time(a) at final point
+	def TimeConstraint():
+		boolean=True
+		for k in range(Data.DAYS):
+			boolean= (boolean and (Plan.a[Data.n+1,k]<=Data.TMAX[k]))
+		if boolean:
+			return BudgetConstraint()
+		else:
 			return [False,2]
 
 
 	#Service start time at each point <= closingTime
-	def TimeConstraint():
+	def TimeWindowConstraint():
 		boolean=True
 		for k in range(Data.DAYS):
-			for i in range (Data.n+2):
+			for i in range (1,Data.n+1):
 				boolean=(boolean and (pi[i,k]<=Data.CLOSETIME[i]))
 		if boolean:
-			return BudgetConstraint()
+			return TimeConstraint()
 		else:
 			return [False,1]
 
-	return (TimeConstraint())
- 
-	# for each day time to return should be less than T_max
-	# Return time = arrival time(a) at final point
-	'''
-	def TimeConstraint():
-		boolean=True
-		for k in range(Data.DAYS):
-			boolean= (boolean and (Plan.a[Data.n+1,k]<=Data.TMAX))
-		if boolean:
-			return [boolean,Objective()]
-		else:
-			return [False,7]
-			'''
+	return (TimeWindowConstraint())
+
+
 	# if visit to i is followed by visit to j arrivalTime(j)<serviceStartSime(j)
 	"""
 	def ContinuityConstraint():B

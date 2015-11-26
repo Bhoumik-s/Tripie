@@ -16,11 +16,11 @@ class DataClass():
 		self.HAPPINESS=data[:,2] 
 		self.COST=data[:,3]
 		self.OPENTIME=data[:,4]
-		self.OPENTIME[0]=TMIN
-		self.OPENTIME[-1]=TMAX
+		#self.OPENTIME[0]=TMIN
+		#self.OPENTIME[-1]=TMAX
 		self.CLOSETIME=data[:,5]
-		self.CLOSETIME[0]=TMAX
-		self.CLOSETIME[-1]=TMAX
+		#self.CLOSETIME[0]=TMAX
+		#self.CLOSETIME[-1]=TMAX
 		self.SERVICETIME=data[:,6]
 		self.n=data.shape[0]-2
 		self.DAYS=DAYS
