@@ -1,47 +1,58 @@
 from data_class import DataClass
 from constraints import Status
-from heuristic import heu1
-from variables_class import Solution
-from metaheuristic import metaN1,metaN2,metaN3
+from heuristic import Heuristic
+from variables_class import PlanVariables
+from metaheuristic import MetaH1,MetaH2,MetaH3
 import numpy as np
 import time
 
-#Algorithm Source: https://lirias.kuleuven.be/bitstream/123456789/276759/1/Garcia_etalv3_FINAL.pdf
+MAXITERATIONS=50
+
+# Algorithm Source: https://lirias.kuleuven.be/bitstream/123456789/276759/1/Garcia_etalv3_FINAL.pdf
+# Initial feasible solution is created using HEU
+# Elements are removed using MetaH#
+# New Plan is made using heu
 
 def make_plan(city,DAYS,tMin,tMax,BUDGET):
 
 	file=city+".xlsx"
 	
-	data=DataClass(file,DAYS,tMin,tMax,BUDGET)
-	empty_route=np.array([[0,data.n+1]]*data.DAYS)
-	rmvd=[[]]*data.DAYS
+	Data=DataClass(file,DAYS,tMin,tMax,BUDGET)
+	emptyRoute=np.array([[0,Data.n+1]]*Data.DAYS)
+	rmvd=[[]]*Data.DAYS
 
-	sol=Solution(empty_route,data)
-	new_sol= heu1(sol,rmvd,data)
-	best_sol=new_sol
-	best_p=Status(new_sol,data)[1]
+	Plan=PlanVariables(emptyRoute,Data)
+	newPlan= Heuristic(Plan,rmvd,Data)
+	bestPlan=newPlan
+	bestObjective=Status(newPlan,Data)[1]
+	
 	iterations=0
-	start_time = time.time()
-	while (iterations<10 and (time.time() - start_time)<30):
+	STARTTIME = time.time()
+
+	while (iterations<MAXITERATIONS and (time.time() - STARTTIME)<30):
 		metaheu=1
+		
 		while(metaheu<=3):
 			if metaheu==1:
-				meta=metaN1(new_sol.R)
+				meta=MetaH1(newPlan.route)
 			if metaheu==2:
-				meta=metaN2(new_sol.R)
+				meta=MetaH2(newPlan.route)
 			if metaheu==3:
-				meta=metaN3(new_sol.R)
-			sol=Solution(meta[0],data)
+				meta=MetaH3(newPlan.route)
+			
+			Plan=PlanVariables(meta[0],Data)
 			rmvd=meta[1]
-			new_sol=heu1(sol,rmvd,data)
-			new_p=Status(new_sol,data)[1]
-			if new_p>best_p:
-				best_p=new_p
-				best_sol=new_sol
+			newPlan=Heuristic(Plan,rmvd,Data)
+			newObjective=Status(newPlan,Data)[1]
+			
+			if newObjective>bestObjective:
+				bestObjective=newObjective
+				bestPlan=newPlan
 				metaheu=1
 			else:
 				metaheu=metaheu+1
 		iterations=iterations+1
+
 	no_of_locations=[]
 	names=[]
 	latitudes=[]
@@ -50,20 +61,23 @@ def make_plan(city,DAYS,tMin,tMax,BUDGET):
 	end=[]
 	free=[]
 	i=0
-	for routes in (best_sol.R):
+	
+	for routes in (bestPlan.route):
 		no_of_locations.append(routes.shape[0])
 		for destination in (routes):
-			names.append(data.NAMES[destination])
-			latitudes.append(data.COORDINATES[destination][0])
-			longitudes.append(data.COORDINATES[destination][1])
-			start.append(best_sol.pi[destination][i])
-			end.append(best_sol.pi[destination][i]+data.SERVICETIME[destination])
-			free.append(best_sol.pi[destination][i]-best_sol.a[destination][i])
+			names.append(Data.NAMES[destination])
+			latitudes.append(Data.COORDINATES[destination][0])
+			longitudes.append(Data.COORDINATES[destination][1])
+			start.append(bestPlan.pi[destination][i])
+			end.append(bestPlan.pi[destination][i]+Data.SERVICETIME[destination])
+			free.append(bestPlan.pi[destination][i]-bestPlan.a[destination][i])
 		i=i+1
-	print time.time()
+	
+	print time.time()-STARTTIME
+	
 	return (no_of_locations,names,latitudes,longitudes,start,end,free)
 
-#plotPlan(best_sol.R,data.COORDINATES,data.DAYS)
+#plotPlan(bestPlan.route,Data.COORDINATES,Data.DAYS)
 
 
 

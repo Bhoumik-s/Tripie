@@ -1,79 +1,83 @@
 import numpy as np
-from variables_class import Solution
+from variables_class import PlanVariables
 from read_data import read
 from constraints import Status
 
+# Insert all possible candidates at all possible positions
+# Candidates = NotVisited - Removed during last metaheuristic
+# Adding each candidate has some cost
+# cost = page 7 of algo source
+# candidate with minimum cost at a place is added
+# if it gives feasible solution newPlan is updated
 
-def insert_element(R,element,position):
-    new_R=[]
-    R_temp=np.delete(R,position[0],0)
-    temp = np.insert(R[position[0]],position[1],element)
-    j=0
-    for i in range(R.shape[0]):
-        if i==position[0]:
-           new_R.append(temp)
-        else:
-            new_R.append(R_temp[j])
-            j=j+1
-    return np.array(new_R)
+# (a 1 , a 2 ) = {(0.9, 0.1), (0.7, 0.3), (0.5, 0.5)}.
+# b = {0.9, 0.7, 0.5, 0.3, 0.1}
+# g = {2, 3, 4}
+para=[0.9,0.1,0.9,2]
 
-def cost1(sol,temp,para,i,j,v,data):
-    N1=float(para[0]*(data.TRAVELTIME[sol.R[i][j-1],v]+data.TRAVELTIME[v,sol.R[i][j]]-data.TRAVELTIME[sol.R[i][j-1],sol.R[i][j]] + para[2]*data.SERVICETIME[v]))
-    #print temp.pi[temp.R[i][j+1],i]
-    N2=float(para[1]*(temp.pi[temp.R[i][j+1],i]-temp.pi[sol.R[i][j],i]))
-    data=float(data.HAPPINESS[v]**para[3])
-    return float((N1+N2)/data)
+def InsertElement(route,element,position):
+	newRoute = []
+	tempRoute = np.delete(route,position[0],0)
+	tempPlan = np.insert(route[position[0]],position[1],element)
+	j = 0
+	for day in range(route.shape[0]):
+		if day==position[0]:
+		   newRoute.append(tempPlan)
+		else:
+			newRoute.append(tempRoute[j])
+			j = j + 1
+	return np.array(newRoute)
 
-def heu1(sol,rmvd,data):
-    sol_temp=sol
-    not_visited=sol_temp.not_visited
-    not_visited=np.union1d(not_visited,[item for sublist in rmvd for item in sublist])
-    
-    for i in range (sol_temp.R.shape[0]):
-        to_be_visited=np.setdiff1d(not_visited,rmvd[i])
-        j=1
-        while j<len(sol_temp.R[i]):
-            flag=0
-            update=0
-            min_cost=999
-            for v in (to_be_visited):
-                R_temp=insert_element(sol_temp.R,v,[i,j])
-                temp=Solution(R_temp,data)
-                COST=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,data)
-                if (COST<min_cost and Status(temp,data)[0]):
-                    min_cost=COST
-                    flag=1
-                    update=temp
-            if flag==1:
-                j=0
-                sol_temp=update
-            j=j+1
-    
-    for i in range (sol_temp.R.shape[0]):
-        while j<len(sol_temp.R[i]):
-            flag=0
-            update=0
-            min_cost=999
-            for v in (rmvd[i]):
-                R_temp=insert_element(sol_temp.R,v,[i,j])
-                temp=Solution(R_temp,data)
-                COST=cost1(sol_temp,temp,[0.9,0.1,0.9,2],i,j,v,data)
-                if (COST<min_cost and Status(temp,data)[0]):
-                    min_cost=COST
-                    flag=1
-                    update=temp
-            if flag==1:
-                j=0
-                sol_temp=update
-            j=j+1
 
-                
-    return sol_temp
-                
-                    
-                    
-                
-                
-            
-            
-            
+def CalculateCost(Plan,tempPlan,day,j,enteringElement,Data):
+
+	N1 = float(para[0]*(Data.TRAVELTIME[Plan.route[day][j-1],enteringElement]
+				+Data.TRAVELTIME[enteringElement,Plan.route[day][j]]
+				-Data.TRAVELTIME[Plan.route[day][j-1],Plan.route[day][j]] 
+				+ para[2]*Data.SERVICETIME[enteringElement]))
+
+	N2 = float(para[1]*(tempPlan.pi[tempPlan.route[day][j+1],day]
+		-tempPlan.pi[Plan.route[day][j],day]))
+
+	N3 = float(Data.HAPPINESS[enteringElement]**para[3])
+
+	return float((N1+N2)/N3)
+
+
+def Heuristic(Plan,rmvd,Data):
+	newPlan=Plan
+	
+	for day in range (newPlan.route.shape[0]):
+		j=1
+		
+		while j<len(newPlan.route[day]):
+			candidates=np.setdiff1d(newPlan.notVisited,rmvd[day])
+			flag=0
+			update=0
+			minCost=999
+
+			for enteringElement in (candidates):
+				tempRoute=InsertElement(newPlan.route,enteringElement,[day,j])
+				tempPlan=PlanVariables(tempRoute,Data)
+				cost=CalculateCost(newPlan,tempPlan,day,j,enteringElement,Data)
+				
+				if (cost<minCost and Status(tempPlan,Data)[0]):
+					minCost=cost
+					flag=1
+					update=tempPlan
+
+			if flag==1:
+				j=0
+				newPlan=update
+
+			j=j+1
+				
+	return newPlan
+				
+					
+					
+				
+				
+			
+			
+			

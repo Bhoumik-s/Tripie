@@ -5,96 +5,99 @@ import numpy as np
 # Or     = [False , Failed Constraint]
 # Redundant 2,6
 
-def Status(sol,data):
-	x=sol.x
-	y=sol.y
-	pi=sol.pi
+def Status(Plan,Data):
+	x=Plan.x
+	y=Plan.y
+	pi=Plan.pi
 	
 	def Objective():
 		happiness=0
-		for i in range(data.DAYS):
-			for j in range (1,data.n+1):
-				happiness=happiness+data.HAPPINESS[j]*y[j,i]
+		for i in range(Data.DAYS):
+			for j in range (1,Data.n+1):
+				happiness=happiness+Data.HAPPINESS[j]*y[j,i]
 		return happiness
+
+	def BudgetConstraint():
+		sum1=0
+		for k in range(Data.DAYS):
+			for i in range(1,Data.n+1):
+				sum1=sum1+Data.COST[i]*y[i,k]
+		boolean=(sum1<=Data.BUDGET)
+		if boolean:
+			return [boolean,Objective()]
+		else:
+			return [False,2]
+
+
+	#Service start time at each point <= closingTime
+	def TimeConstraint():
+		boolean=True
+		for k in range(Data.DAYS):
+			for i in range (Data.n+2):
+				boolean=(boolean and (pi[i,k]<=Data.CLOSETIME[i]))
+		if boolean:
+			return BudgetConstraint()
+		else:
+			return [False,1]
+
+	return (TimeConstraint())
  
 	# for each day time to return should be less than T_max
 	# Return time = arrival time(a) at final point
+	'''
 	def TimeConstraint():
 		boolean=True
-		for k in range(data.DAYS):
-			boolean= (boolean and (sol.a[data.n+1,k]<=data.TMAX))
+		for k in range(Data.DAYS):
+			boolean= (boolean and (Plan.a[Data.n+1,k]<=Data.TMAX))
 		if boolean:
 			return [boolean,Objective()]
 		else:
 			return [False,7]
-
+			'''
 	# if visit to i is followed by visit to j arrivalTime(j)<serviceStartSime(j)
 	"""
-	def ContinuityConstraint():
-		boolean=True
-		for i in range(data.n+2):
-			for j in range(data.n+2):
-				for k in range (data.DAYS):
-					boolean=(boolean and (a[j,k]-pi[j,k]<=data.M*(1-x[i,j,k])))
+	def ContinuityConstraint():B
+		for i in range(Data.n+2):
+			for j in range(Data.n+2):
+				for k in range (Data.DAYS):
+					boolean=(boolean and (a[j,k]-pi[j,k]<=Data.M*(1-x[i,j,k])))
 		if boolean:
 			return TimeConstraint()
 		else:
 			return [False,6]
 			"""
 	## if i is visited on day k there is exactly one preceding and following point		
+	'''
 	def OneVertexConstraint():
 		boolean=True
-		for i in range(1,data.n+1):
-			for k in range(data.DAYS):
-				sum1=np.sum(x[0:data.n+1,i,k])
-				sum2=np.sum(x[i,1:data.n+2,k])
+		for i in range(1,Data.n+1):
+			for k in range(Data.DAYS):
+				sum1=np.sum(x[0:Data.n+1,i,k])
+				sum2=np.sum(x[i,1:Data.n+2,k])
 				boolean=(boolean and ((sum1==sum2) and (sum1==y[i,k])))
 		if boolean:
-			return ContinuityConstraint()
+			return TimeConstraint()
 		else:
 			return [False,5]
-
-	def BudgetConstraint():
-		sum1=0
-		for k in range(data.DAYS):
-			for i in range(1,data.n+1):
-				sum1=sum1+data.COST[i]*y[i,k]
-		boolean=(sum1<=data.BUDGET)
-		if boolean:
-			return OneVertexConstraint()
-		else:
-			return [False,4]
-
+			'''
 	#Each point is visited only once during all days 
+	'''
 	def OnceConstraint():
 		boolean=True
-		for h in range(1,data.n+1):
+		for h in range(1,Data.n+1):
 			boolean=(boolean and (np.sum(y[h,:])<=1))
 		if boolean:
 			return BudgetConstraint()
 		else:
 			return [False,3]
+			'''
 
 	'''	
 	def DaysConstraint():
-		sum1=np.sum(x[0,1:data.n+2,:])
-		sum2=np.sum(x[0:data.n+1,data.n+1,:])
-		if (((sum1==sum2) and (sum1==data.DAYS))):
+		sum1=np.sum(x[0,1:Data.n+2,:])
+		sum2=np.sum(x[0:Data.n+1,Data.n+1,:])
+		if (((sum1==sum2) and (sum1==Data.DAYS))):
 			return OnceConstraint()
 		else:
 			return [False,2]
 			'''
-	#Service start time at each point <= closingTime
-	def CloseTimeConstraint():
-		boolean=True
-		for k in range(data.DAYS):
-			for i in range (data.n+2):
-				boolean=(boolean and (pi[i,k]<=data.CLOSETIME[i]))
-		if boolean:
-			return DaysConstraint()
-		else:
-			return [False,1]
-
-	
-	return (CloseTimeConstraint()) 
-	
