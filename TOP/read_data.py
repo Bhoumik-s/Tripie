@@ -19,7 +19,7 @@ def ReadData(file):
 
 def ReadDurations(file):
     
-    odule_dir = os.path.dirname(__file__)  # get current directory
+    module_dir = os.path.dirname(__file__)  # get current directory
     file_path = os.path.join(module_dir, file)
     book = xlrd.open_workbook(file_path)
     worksheet = book.sheet_by_index(0)

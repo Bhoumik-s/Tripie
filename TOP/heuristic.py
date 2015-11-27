@@ -1,6 +1,5 @@
 import numpy as np
 from variables_class import PlanVariables
-from read_data import read
 from constraints import Status
 
 # Insert all possible candidates at all possible positions

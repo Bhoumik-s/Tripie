@@ -13,11 +13,11 @@ MAXITERATIONS=10
 # Elements are removed using MetaH#
 # New Plan is made using heu
 
-def make_plan(city,DAYS,TMIN,TMAX,BUDGET):
+def make_plan(CITY,DAYS,TMIN,TMAX,BUDGET):
 
-	file=city+".xlsx"
 	
-	Data=DataClass(file,DAYS,TMIN,TMAX,BUDGET)
+	
+	Data=DataClass(CITY,DAYS,TMIN,TMAX,BUDGET,[])
 	emptyRoute=np.array([[0,Data.n+1]]*Data.DAYS)
 	rmvd=[[]]*Data.DAYS
 
