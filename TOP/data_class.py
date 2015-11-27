@@ -1,4 +1,4 @@
-from read_data import read
+from read_data import ReadData#,ReadDurations
 from Google_distance_API import duration_mat
 import numpy as np
 
@@ -8,11 +8,13 @@ import numpy as np
 class DataClass():
 	def __init__(self,file,DAYS,TMIN,TMAX,BUDGET):
 		
-		file_data=read(file)
+		file_data=ReadData(file)
 		data=file_data[0]
+		print data
 		self.NAMES=file_data[1] #Names of places to visit
 		self.COORDINATES=data[:,:2]
 		self.TRAVELTIME=duration_mat(self.COORDINATES[0:-1,0:2]) #Travel time between any two places
+		#self.TRAVELTIME=ReadDurations('Mumbai_duration.xls')
 		self.HAPPINESS=data[:,2] 
 		self.COST=data[:,3]
 		self.OPENTIME=data[:,4]
