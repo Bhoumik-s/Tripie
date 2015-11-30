@@ -13,12 +13,15 @@ MAXITERATIONS=10
 # Elements are removed using MetaH#
 # New Plan is made using heu
 
-def make_plan(CITY,DAYS,TMIN,TMAX,BUDGET):
+def make_plan(CITY,DAYS,BUDGET,VISITED,BOUNDRYCONDITIONS):
+	STARTTIME = time.time()
+	Data=DataClass(CITY,DAYS,BUDGET,VISITED,BOUNDRYCONDITIONS)
+	print time.time()-STARTTIME
+	emptyRoute=np.empty((Data.DAYS,2))
+	for i in range (DAYS):
+		for j in range (2):
+			emptyRoute[i,j]=Data.n+2*i+j
 
-	
-	
-	Data=DataClass(CITY,DAYS,TMIN,TMAX,BUDGET,[])
-	emptyRoute=np.array([[0,Data.n+1]]*Data.DAYS)
 	rmvd=[[]]*Data.DAYS
 
 	Plan=PlanVariables(emptyRoute,Data)
@@ -27,8 +30,8 @@ def make_plan(CITY,DAYS,TMIN,TMAX,BUDGET):
 	bestObjective=Status(newPlan,Data)[1]
 	
 	iterations=0
-	STARTTIME = time.time()
-
+	
+	print time.time()-STARTTIME
 	while (iterations<MAXITERATIONS and (time.time() - STARTTIME)<30):
 		metaheu=1
 		
@@ -52,7 +55,7 @@ def make_plan(CITY,DAYS,TMIN,TMAX,BUDGET):
 			else:
 				metaheu=metaheu+1
 		iterations=iterations+1
-
+		#print iterations,bestObjective,bestPlan.route
 	no_of_locations=[]
 	names=[]
 	latitudes=[]
@@ -61,7 +64,7 @@ def make_plan(CITY,DAYS,TMIN,TMAX,BUDGET):
 	end=[]
 	free=[]
 	i=0
-	
+	'''
 	for routes in (bestPlan.route):
 		no_of_locations.append(routes.shape[0])
 		for destination in (routes):
@@ -72,12 +75,14 @@ def make_plan(CITY,DAYS,TMIN,TMAX,BUDGET):
 			end.append(bestPlan.pi[destination][i]+Data.SERVICETIME[destination])
 			free.append(bestPlan.pi[destination][i]-bestPlan.a[destination][i])
 		i=i+1
+		'''
 	
 	print time.time()-STARTTIME
 	
-	return (no_of_locations,names,latitudes,longitudes,start,end,free)
+	#return (no_of_locations,names,latitudes,longitudes,start,end,free)
+	return bestPlan.route
 
-#plotPlan(bestPlan.route,Data.COORDINATES,Data.DAYS)
+#plotPlan(bestPlan.route, Data.COORDINATES,Data.DAYS)
 
 
 

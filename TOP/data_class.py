@@ -20,8 +20,8 @@ class DataClass():
 		self.TRAVELTIME=np.zeros((self.n+2*DAYS,self.n+2*DAYS))
 		data=[]
 		self.NAMES=[]
-		p=0
 
+		p=0
 		for i in DESTINATIONS:
 			data.append(cityData[i])
 			self.NAMES.append(file_data[1][i]) #Names of places to visit
@@ -35,9 +35,9 @@ class DataClass():
 		self.COORDINATES=data[:,:2]
 		self.HAPPINESS=data[:,2] 
 		self.COST=data[:,3]
-		self.OPENTIME=data[:,4]
+		self.OPENTIME=np.append(data[:,4],np.zeros((2*DAYS,1)))
 		self.CLOSETIME=data[:,5]
-		self.SERVICETIME=data[:,6]
+		self.SERVICETIME=np.append(data[:,6],np.zeros((2*DAYS,1)))
 		self.DAYS=DAYS
 		self.M=10000
 		self.TMAX=BOUNDRYCONDITIONS[:,5]

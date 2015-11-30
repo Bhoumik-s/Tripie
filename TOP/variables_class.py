@@ -18,13 +18,12 @@ import numpy as np
 class PlanVariables:
 	
 	def reset(self,Data):
-		self.x=np.zeros((Data.n+2,Data.n+2,Data.DAYS))
-		self.y=np.zeros((Data.n+2,Data.DAYS))
-		self.pi=np.zeros((Data.n+2,Data.DAYS))
-		self.a=np.zeros((Data.n+2,Data.DAYS))
-		self.a[0]=Data.TMIN
-		self.pi[0]=Data.TMIN
-		self.notVisited=np.array(range(1,Data.n+1))
+		self.x=np.zeros((Data.n+2*Data.DAYS,Data.n+2*Data.DAYS,Data.DAYS))
+		self.y=np.zeros((Data.n+2*Data.DAYS,Data.DAYS))
+		self.pi=np.zeros((Data.n+2*Data.DAYS,Data.DAYS))
+		self.a=np.zeros((Data.n+2*Data.DAYS,Data.DAYS))
+		
+		self.notVisited=np.array(range(Data.n))
 
 	# notVisited is set diff of All places and places in route
 	# a = pi(previous) + ServiceTime(previous) + TravelTime
@@ -33,7 +32,10 @@ class PlanVariables:
 	def update(self,route,Data):
 		self.route=route
 		self.reset(Data)
+		
 		for i in range(Data.DAYS):
+			self.a[route[i][0],i]=Data.TMIN[i]
+			self.pi[route[i][0],i]=Data.TMIN[i]
 			self.notVisited=np.setdiff1d(self.notVisited,route[i])
 			for j in range (len(route[i])-1):
 				self.x[route[i][j],route[i][j+1],i]=1

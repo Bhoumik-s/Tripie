@@ -13,14 +13,14 @@ def Status(Plan,Data):
 	def Objective():
 		happiness=0
 		for i in range(Data.DAYS):
-			for j in range (1,Data.n+1):
+			for j in range (Data.n):
 				happiness=happiness+Data.HAPPINESS[j]*y[j,i]
 		return happiness
 
 	def BudgetConstraint():
 		sum1=0
 		for k in range(Data.DAYS):
-			for i in range(1,Data.n+1):
+			for i in range(Data.n):
 				sum1=sum1+Data.COST[i]*y[i,k]
 		boolean=(sum1<=Data.BUDGET)
 		if boolean:
@@ -33,7 +33,7 @@ def Status(Plan,Data):
 	def TimeConstraint():
 		boolean=True
 		for k in range(Data.DAYS):
-			boolean= (boolean and (Plan.a[Data.n+1,k]<=Data.TMAX[k]))
+			boolean= (boolean and (Plan.a[Data.n+2*k+1,k]<=Data.TMAX[k]))
 		if boolean:
 			return BudgetConstraint()
 		else:
@@ -44,7 +44,7 @@ def Status(Plan,Data):
 	def TimeWindowConstraint():
 		boolean=True
 		for k in range(Data.DAYS):
-			for i in range (1,Data.n+1):
+			for i in range (Data.n):
 				boolean=(boolean and (pi[i,k]<=Data.CLOSETIME[i]))
 		if boolean:
 			return TimeConstraint()
