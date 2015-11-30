@@ -1,8 +1,9 @@
 from data_class import DataClass
+import numpy as np
+Visited=[]
 
-Visited=[0,2,5]
+BOUNDRYCONDITIONS=np.asarray([[18.944,72.823,18.944,72.823,300,720],[18.944,72.823,18.944,72.823,300,720],[18.944,72.823,18.944,72.823,300,720]])
+Data=DataClass('Mumbai',3,1500,Visited,BOUNDRYCONDITIONS)
 
-Data=DataClass('Mumbai',3,[800,60,60],[1440,1000,600],1500,Visited)
-
-print Data.
+print Data.TRAVELTIME[0:5]
 # Create your tests here.

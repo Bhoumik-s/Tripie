@@ -1,12 +1,12 @@
 from read_data import ReadData,ReadDurations
-from Google_distance_API import duration_mat
+from Google_distance_API import FindDurations
 import numpy as np
 
 #DataClass fetches all constants for the trip
 # time = minutes since 6AM in the morning
 
 class DataClass():
-	def __init__(self,CITY,DAYS,TMIN,TMAX,BUDGET,VISITED):
+	def __init__(self,CITY,DAYS,BUDGET,VISITED,BOUNDRYCONDITIONS):
 		
 		dataFile=CITY+".xlsx"
 		durationFile=CITY+"_duration.xls"
@@ -17,7 +17,7 @@ class DataClass():
 		DESTINATIONS=np.setdiff1d(range(len(cityData)),VISITED)
 		self.n=len(DESTINATIONS)
 
-		self.TRAVELTIME=[[0 for col in range(self.n)] for row in range(self.n)]
+		self.TRAVELTIME=np.zeros((self.n+2*DAYS,self.n+2*DAYS))
 		data=[]
 		self.NAMES=[]
 		p=0
@@ -27,27 +27,24 @@ class DataClass():
 			self.NAMES.append(file_data[1][i]) #Names of places to visit
 			q=0
 			for j in DESTINATIONS:
-				self.TRAVELTIME[p][q]=cityDuration[i][j]
+				self.TRAVELTIME[p,q]=cityDuration[i][j]
 				q=q+1
 			p=p+1 
-		
-		self.TRAVELTIME=np.asarray(self.TRAVELTIME)
+
 		data=np.asarray(data)
 		self.COORDINATES=data[:,:2]
-		#self.TRAVELTIME=duration_mat(self.COORDINATES[0:-1,0:2]) #Travel time between any two places
-		#self.TRAVELTIME=ReadDurations('Mumbai_duration.xls')
 		self.HAPPINESS=data[:,2] 
 		self.COST=data[:,3]
 		self.OPENTIME=data[:,4]
-		#self.OPENTIME[0]=TMIN
-		#self.OPENTIME[-1]=TMAX
 		self.CLOSETIME=data[:,5]
-		#self.CLOSETIME[0]=TMAX
-		#self.CLOSETIME[-1]=TMAX
 		self.SERVICETIME=data[:,6]
-		self.n=data.shape[0]-2
 		self.DAYS=DAYS
 		self.M=10000
-		self.TMAX=TMAX
+		self.TMAX=BOUNDRYCONDITIONS[:,5]
 		self.BUDGET=BUDGET
-		self.TMIN=TMIN
+		self.TMIN=BOUNDRYCONDITIONS[:,4]
+		for i in range (DAYS):
+			for j in range(2):
+				duration=FindDurations([BOUNDRYCONDITIONS[i][2*j],BOUNDRYCONDITIONS[i][2*j+1]],self.COORDINATES)
+				self.TRAVELTIME[self.n+2*i+j,0:self.n]=duration
+				self.TRAVELTIME[0:self.n,self.n+2*i+j]=duration[:]

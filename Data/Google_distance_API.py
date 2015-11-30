@@ -2,6 +2,8 @@ import json
 import requests
 import numpy as np
 from collections import OrderedDict
+from read_data import read
+import xlwt
 
 keys = ['AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg',
 		'AIzaSyD78YNBKealbLE70kG39MPvhYeS2Jv-1Eo',
@@ -20,36 +22,48 @@ def GetResponse(origins,destinations,keyId):
 			origins= origins,
 			destinations=destinations,
 			key=keys[keyId]
+			#traffic_model= 'pessimistic'
 			)
-
-
+		#print params
 		resp = requests.get(url=url, params=params)
 		data = json.loads(resp.text)
-
+		#print data['status']
 		if data['status']=='OK':
 			return (keyId,data)
 		else:
 			keyId=(keyId+1%9)
 			return GetResponse(origins,destinations,keyId)
 
-def FindDurations(originCo,destinationCo):
+
+def GetDurationMat(city):
 	keyId=0
-	origins=str(originCo[0])+','+str(originCo[1])
-	
-	destinations=str(destinationCo[0][0])+','+str(destinationCo[0][1])
-	for i in range (1,destinationCo.shape[0]):
-	    destinations= destinations+'|'+str(destinationCo[i][0])+','+str(destinationCo[i][1])
-	
-	
-	resp=GetResponse(origins,destinations,keyId)
-	keyId=resp[0]
-	data=resp[1]
-	
-	durations=np.zeros(destinationCo.shape[0],dtype=int)
 
-	for k in range(destinationCo.shape[0]):
-			durations[k]=data['rows'][0]['elements'][k]['duration']['value']/60
+	file=city+'.xlsx'
+	coordinates=read(file)
 	
+	n=coordinates.shape[0]
+	durations=np.zeros((n,n),dtype=int)
+	
+	for i in range (0,n):
+		print i
+		origins=str(coordinates[i][0])+','+str(coordinates[i][1])
+		destinations=str(coordinates[0][0])+','+str(coordinates[0][1])
+		
+		for j in range (1,n):
+			destinations=destinations+'|'+str(coordinates[j][0])+','+str(coordinates[j][1])
+		
+		resp=GetResponse(origins,destinations,keyId)
+		keyId=resp[0]
+		data=resp[1]		
+		for k in range(n):
+			durations[i,k]=data['rows'][0]['elements'][k]['duration']['value']/60
 
-	return durations
-	
+	book = xlwt.Workbook()
+	bookName="Mumbai_duration.xls"
+	sheetName="6.30 PM"
+	sheet = book.add_sheet(sheetName)
+
+	for i in range (n):
+		for j in range (n):
+			sheet.write(i,j,durations[i][j])
+	book.save(bookName)
