@@ -4,6 +4,12 @@ import numpy as np
 from collections import OrderedDict
 from read_data import read
 import xlwt
+from xlrd import open_workbook
+from xlutils.copy import copy
+import sys
+import time
+import os.path
+
 
 keys = ['AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg',
 		'AIzaSyD78YNBKealbLE70kG39MPvhYeS2Jv-1Eo',
@@ -15,6 +21,8 @@ keys = ['AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg',
 		'AIzaSyDtbnG0hUFeRoWX-GtUOSeNImNBn1JvTsw',
 		'AIzaSyB4AqTl8IvqNRMD_U9ALLUUiw6KcIP5a_0',
 		'AIzaSyB5juy1Uvotz6dSx2bQ6s2Ii4SgGxq3EH0']
+
+sysArg = sys.argv[1]
 
 def GetResponse(origins,destinations,keyId):
 		url='https://maps.googleapis.com/maps/api/distancematrix/json'	
@@ -35,7 +43,7 @@ def GetResponse(origins,destinations,keyId):
 			return GetResponse(origins,destinations,keyId)
 
 
-def GetDurationMat(city):
+def GetDurationMat(city=sysArg):
 	keyId=0
 
 	file=city+'.xlsx'
@@ -57,13 +65,24 @@ def GetDurationMat(city):
 		data=resp[1]		
 		for k in range(n):
 			durations[i,k]=data['rows'][0]['elements'][k]['duration']['value']/60
-
-	book = xlwt.Workbook()
-	bookName="Mumbai_duration.xls"
-	sheetName="6.30 PM"
+	
+	hour = time.strftime("%H")
+	date = time.strftime("%d_%m")
+	sheetName=date+".xls"
+	bookName=hour+".xls"
+	
+	if os.path.isfile(bookName):
+		oldBook = open_workbook(bookName,formatting_info=True)
+		book = copy(oldBook)
+	else:
+		book = xlwt.Workbook()
+	
 	sheet = book.add_sheet(sheetName)
 
 	for i in range (n):
 		for j in range (n):
 			sheet.write(i,j,durations[i][j])
 	book.save(bookName)
+
+if __name__ == "__main__":
+	GetDurationMat()

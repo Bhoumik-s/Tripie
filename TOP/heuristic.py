@@ -59,8 +59,8 @@ def Heuristic(Plan,rmvd,Data):
 				tempRoute=InsertElement(newPlan.route,enteringElement,[day,j])
 				tempPlan=PlanVariables(tempRoute,Data)
 				cost=CalculateCost(newPlan,tempPlan,day,j,enteringElement,Data)
-				
-				if (cost<minCost and Status(tempPlan,Data)[0]):
+				status=Status(tempPlan,Data)
+				if (cost<minCost and status[0]):
 					minCost=cost
 					flag=1
 					update=tempPlan
@@ -73,7 +73,7 @@ def Heuristic(Plan,rmvd,Data):
 
 			j=j+1
 				
-	return newPlan
+	return (newPlan,status[1])
 				
 					
 					

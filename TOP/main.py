@@ -25,9 +25,10 @@ def make_plan(CITY,DAYS,BUDGET,VISITED,BOUNDRYCONDITIONS):
 	rmvd=[[]]*Data.DAYS
 
 	Plan=PlanVariables(emptyRoute,Data)
-	newPlan= Heuristic(Plan,rmvd,Data)
+	heuristicResponse= Heuristic(Plan,rmvd,Data)
+	newPlan=heuristicResponse[0]
 	bestPlan=newPlan
-	bestObjective=Status(newPlan,Data)[1]
+	bestObjective=heuristicResponse[1]
 	
 	iterations=0
 	
@@ -45,8 +46,9 @@ def make_plan(CITY,DAYS,BUDGET,VISITED,BOUNDRYCONDITIONS):
 			
 			Plan=PlanVariables(meta[0],Data)
 			rmvd=meta[1]
-			newPlan=Heuristic(Plan,rmvd,Data)
-			newObjective=Status(newPlan,Data)[1]
+			heuristicResponse=Heuristic(Plan,rmvd,Data)
+			newPlan=heuristicResponse[0]
+			newObjective=heuristicResponse[1]
 			
 			if newObjective>bestObjective:
 				bestObjective=newObjective
