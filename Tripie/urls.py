@@ -19,5 +19,4 @@ import TOP
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^TOP/', include('TOP.urls')),
-    url(r'^Path/', include('Path.urls'))
 ]
