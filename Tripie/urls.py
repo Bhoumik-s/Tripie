@@ -18,5 +18,7 @@ from django.contrib import admin
 import TOP
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^TOP/', include('TOP.urls')),
+    url(r'^api/Plan/', include('Plan.urls')),
+    url(r'^api/signup/', include('signup.urls')),
+    
 ]
