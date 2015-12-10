@@ -15,11 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-import Plan
-import signup
+from signup import views
+
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/Plan/', include('Plan.urls')),
-    url(r'^api/signup/', include('signup.urls')),
-    
+    url(r'^$', views.home,name="home"),
 ]
