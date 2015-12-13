@@ -45,10 +45,10 @@ def CalculateCost(Plan,tempPlan,day,j,enteringElement,Data):
 
 def Heuristic(Plan,rmvd,Data,timeMultiplier):
 	newPlan=Plan
-	
+	happiness=0
 	for day in range (newPlan.route.shape[0]):
 		j=1
-		happiness=0
+		
 		while j<len(newPlan.route[day]):
 			candidates=np.setdiff1d(newPlan.notVisited,rmvd[day])
 			flag=0

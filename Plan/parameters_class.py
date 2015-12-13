@@ -13,6 +13,7 @@ class ParameterClass():
 		self.startDate = datetime.datetime.strptime(request.GET['StartDate'], '%d%m%Y')
 		self.endDate = datetime.datetime.strptime(request.GET['EndDate'], '%d%m%Y')
 		self.days = abs((self.endDate - self.startDate).days) + 1
+		print self.days
 
 		self.visited = np.array((request.GET['Visited']).split(","),dtype=int)
 		self.interest = np.array((request.GET['Interest']).split(","),dtype=int)

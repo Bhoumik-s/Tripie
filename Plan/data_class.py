@@ -58,7 +58,8 @@ class DataClass():
 				self.TRAVELTIME[0:self.n,self.n+2*i+j]=duration[:]
 
 		for i in range (DAYS):
-			self.NAMES.append(["Home/Start","Home")
+			self.NAMES.append("Home/Start")
+			self.NAMES.append("Home")
 			for j in range(2):		
 				self.ID = np.append(self.ID,cityData.shape[0]+j)
 				newCoordinates = [BOUNDRYCONDITIONS[i][2*j],BOUNDRYCONDITIONS[i][2*j+1]]
