@@ -33,7 +33,7 @@ def GetResponse(origins,destinations,keyId):
 			return GetResponse(origins,destinations,keyId)
 
 def FindDurations(originCo,destinationCo):
-	keyId=7
+	keyId=0
 	origins=str(originCo[0])+','+str(originCo[1])
 	
 	destinations=str(destinationCo[0][0])+','+str(destinationCo[0][1])
