@@ -6,7 +6,7 @@ from metaheuristic import MetaH1,MetaH2,MetaH3
 import numpy as np
 import time
 
-MAXITERATIONS=2
+MAXITERATIONS=15
 
 # Algorithm Source: https://lirias.kuleuven.be/bitstream/123456789/276759/1/Garcia_etalv3_FINAL.pdf
 # Initial feasible solution is created using HEU
