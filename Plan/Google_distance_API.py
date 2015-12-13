@@ -29,7 +29,7 @@ def GetResponse(origins,destinations,keyId):
 		if data['status']=='OK':
 			return (keyId,data)
 		else:
-			keyId=(keyId+1%9)
+			keyId=((keyId+1)%9)
 			return GetResponse(origins,destinations,keyId)
 
 def FindDurations(originCo,destinationCo):
