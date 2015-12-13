@@ -23,9 +23,9 @@ def CheckId(deviceId,mob):
 	
 # Create your views here.
 def home(request):
-	mob=str(request.GET['mob'])
-	deviceId=str(request.GET['deviceId'])
-	print mob,id
+	mob=request.GET['mob']
+	deviceId=request.GET['deviceId']
+	print mob
 	CheckId(deviceId,mob)
 	response_data={}
 	response_data["key"]=deviceId

@@ -5,7 +5,7 @@ import numpy as np
 # Or     = [False , Failed Constraint]
 # Redundant 2,6
 
-def Status(Plan,Data):
+def Status(Plan,Data,timeMultiplier):
 	x=Plan.x
 	y=Plan.y
 	pi=Plan.pi
@@ -15,9 +15,13 @@ def Status(Plan,Data):
 		for i in range(Data.DAYS):
 			for j in range (Data.n):
 				happiness=happiness+Data.HAPPINESS[j]*y[j,i]
+		for k in range(Data.DAYS):
+			for j in range (Data.n):
+				for i in range (Data.n):
+					happiness=happiness-x[i,j,k]*Data.TRAVELTIME[i,j]*timeMultiplier
 		return happiness
 
-	def BudgetConstraint():
+	'''def BudgetConstraint():
 		sum1=0
 		for k in range(Data.DAYS):
 			for i in range(Data.n):
@@ -26,7 +30,7 @@ def Status(Plan,Data):
 		if boolean:
 			return [boolean,Objective()]
 		else:
-			return [False,3]
+			return [False,3]'''
 
 	# for each day time to return should be less than T_max
 	# Return time = arrival time(a) at final point
@@ -35,7 +39,7 @@ def Status(Plan,Data):
 		for k in range(Data.DAYS):
 			boolean= (boolean and (Plan.a[Data.n+2*k+1,k]<=Data.TMAX[k]))
 		if boolean:
-			return BudgetConstraint()
+			return [boolean,Objective()]
 		else:
 			return [False,2]
 

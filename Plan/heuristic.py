@@ -43,12 +43,12 @@ def CalculateCost(Plan,tempPlan,day,j,enteringElement,Data):
 	return float((N1+N2)/N3)
 
 
-def Heuristic(Plan,rmvd,Data):
+def Heuristic(Plan,rmvd,Data,timeMultiplier):
 	newPlan=Plan
 	
 	for day in range (newPlan.route.shape[0]):
 		j=1
-		
+		happiness=0
 		while j<len(newPlan.route[day]):
 			candidates=np.setdiff1d(newPlan.notVisited,rmvd[day])
 			flag=0
@@ -59,11 +59,12 @@ def Heuristic(Plan,rmvd,Data):
 				tempRoute=InsertElement(newPlan.route,enteringElement,[day,j])
 				tempPlan=PlanVariables(tempRoute,Data)
 				cost=CalculateCost(newPlan,tempPlan,day,j,enteringElement,Data)
-				status=Status(tempPlan,Data)
+				status=Status(tempPlan,Data,timeMultiplier)
 				if (cost<minCost and status[0]):
 					minCost=cost
 					flag=1
 					update=tempPlan
+					happiness=status[1]
 				#else:
 				#	print Status(tempPlan,Data)
 
@@ -71,9 +72,8 @@ def Heuristic(Plan,rmvd,Data):
 				j=0
 				newPlan=update
 
-			j=j+1
-				
-	return (newPlan,status[1])
+			j=j+1			
+	return (newPlan,happiness)
 				
 					
 					
