@@ -3,7 +3,7 @@ from Google_distance_API import FindDurations
 import numpy as np
 
 #DataClass fetches all constants for the trip
-# time = minutes since 6AM in the morning
+# time = minutes since 5AM in the morning
 
 class DataClass():
 	def __init__(self,Parameters):
@@ -58,8 +58,8 @@ class DataClass():
 				self.TRAVELTIME[0:self.n,self.n+2*i+j]=duration[:]
 
 		for i in range (DAYS):
+			self.NAMES.append(["Home/Start","Home")
 			for j in range(2):		
-				self.NAMES.append("Home")
 				self.ID = np.append(self.ID,cityData.shape[0]+j)
 				newCoordinates = [BOUNDRYCONDITIONS[i][2*j],BOUNDRYCONDITIONS[i][2*j+1]]
 				self.COORDINATES = np.vstack([self.COORDINATES,newCoordinates])
