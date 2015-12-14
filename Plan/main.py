@@ -18,7 +18,7 @@ def MakePlan(Parameters):
 	STARTTIME = time.time()
 	Data=DataClass(Parameters)
 	
-	print time.time()-STARTTIME
+	#print time.time()-STARTTIME
 	emptyRoute=np.empty((Data.DAYS,2), dtype=int)
 	for i in range (Parameters.days):
 		for j in range (2):
@@ -34,7 +34,7 @@ def MakePlan(Parameters):
 	
 	iterations=0
 	
-	print time.time()-STARTTIME
+	#print time.time()-STARTTIME
 	while (iterations<MAXITERATIONS and (time.time() - STARTTIME)<25):
 		metaheu=1
 		
@@ -62,9 +62,9 @@ def MakePlan(Parameters):
 		iterations=iterations+1
 		
 	
-	print time.time()-STARTTIME
-	print bestObjective
-	print bestPlan.route
+	#print time.time()-STARTTIME
+	#print bestObjective
+	#print bestPlan.route
 	#return (no_of_locations,names,latitudes,longitudes,start,end,free)
 	return [bestPlan,Data]
 
