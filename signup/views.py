@@ -25,7 +25,6 @@ def CheckId(deviceId,mob):
 def home(request):
 	mob=request.GET['mob']
 	deviceId=request.GET['deviceId']
-	print mob
 	CheckId(deviceId,mob)
 	response_data={}
 	response_data["key"]=deviceId

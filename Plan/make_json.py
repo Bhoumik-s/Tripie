@@ -1,7 +1,9 @@
 from collections import OrderedDict
 import json
+import os
+import getpass
 
-def MakeJson(bestPlan,Data):
+def MakeJson(bestPlan,Data,Parameters):
 	no_of_locations=[]
 	names=[]
 	locationId=[]
@@ -52,4 +54,15 @@ def MakeJson(bestPlan,Data):
 	plan_obj["Day"]=days
 	response_data["Plan"]=plan_obj
 
+	user = getpass.getuser()
+	DIR = '/home/'+user+'/TripieServer/Plan/itineraries/'+Parameters.deviceId
+	if not os.path.exists(DIR):
+		os.makedirs(DIR)
+
+	fileName= len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+	file_path = os.path.join(DIR, str(fileName+1))
+
+	with open(file_path, 'w') as outfile:
+		outfile.write(json.dumps(response_data,outfile, indent=4, separators=(',', ': ')))
+	
 	return json.dumps(response_data, indent=4, separators=(',', ': '))

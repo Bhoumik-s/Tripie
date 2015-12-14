@@ -1,6 +1,11 @@
-import datetime
+import os
+import getpass
+user = getpass.getuser()
 
-startDate = datetime.datetime.strptime('12122012', '%d%m%Y')
-endDate = datetime.datetime.strptime('16122012', '%d%m%Y')
-Days = abs((endDate - startDate).days)
-print Days
+
+
+DIR = '/home/'+user+'/TripieServer/Plan/itineraries'
+if not os.path.exists(DIR):
+    os.makedirs(DIR)
+
+print len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
