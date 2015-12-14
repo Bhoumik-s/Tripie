@@ -3,7 +3,9 @@ import requests
 import numpy as np
 from collections import OrderedDict
 
-keys = ['AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg',
+keys = [#'AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg', #BHoumikS with billing
+		'AIzaSyB5FRaAZFEKYEmN6iTKbdsvdkUnaxFeIwQ', 
+		'AIzaSyAkyOPwCARgHCb5b7LK8XbWprn06HCXAzg',
 		'AIzaSyD78YNBKealbLE70kG39MPvhYeS2Jv-1Eo',
 		'AIzaSyDNKOkptxcE7y_kxb4SDJKEHMin9RjeDjo',	
 		'AIzaSyDxqD0Xsl10vU8cOLD9dPQ8jk0vGaLDX7A',	
@@ -29,11 +31,10 @@ def GetResponse(origins,destinations,keyId):
 		if data['status']=='OK':
 			return (keyId,data)
 		else:
-			keyId=((keyId+1)%9)
+			keyId=((keyId+1)%len(keys))
 			return GetResponse(origins,destinations,keyId)
 
-def FindDurations(originCo,destinationCo):
-	keyId=0
+def FindDurations(originCo,destinationCo,keyId):
 	origins=str(originCo[0])+','+str(originCo[1])
 	
 	destinations=str(destinationCo[0][0])+','+str(destinationCo[0][1])
@@ -51,5 +52,5 @@ def FindDurations(originCo,destinationCo):
 			durations[k]=data['rows'][0]['elements'][k]['duration']['value']/60
 	
 
-	return durations
+	return [durations,keyId]
 	
