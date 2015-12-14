@@ -13,8 +13,7 @@ def ReadData(file):
     for i in range (worksheet.nrows-1):
         for j in range (worksheet.ncols-1):
             data[i][j]=worksheet.cell(i+1,j+1).value
-        name.append(str(worksheet.cell(i+1,0).value))
-    return (data,name)
+    return data
 
 
 def ReadDurations(file):

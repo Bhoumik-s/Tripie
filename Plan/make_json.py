@@ -1,9 +1,10 @@
 from collections import OrderedDict
 import json
 import os
+import xlrd
 import getpass
 
-def MakeJson(bestPlan,Data,Parameters):
+def MakeJson(bestPlan,Data,Parameters,request):
 	no_of_locations=[]
 	names=[]
 	locationId=[]
@@ -18,7 +19,6 @@ def MakeJson(bestPlan,Data,Parameters):
 		no_of_locations.append(routes.shape[0])
 		for destination in (routes):
 			locationId.append(Data.ID[destination])
-			names.append(Data.NAMES[destination])
 			latitudes.append(Data.COORDINATES[destination][0])
 			longitudes.append(Data.COORDINATES[destination][1])
 			start.append(bestPlan.pi[destination][i])
@@ -29,9 +29,27 @@ def MakeJson(bestPlan,Data,Parameters):
 	response_data=OrderedDict()
 	response_data["no_of_days"]=len(no_of_locations)
 	response_data["no_of_locations"]=no_of_locations
+
+	userInput = OrderedDict()
+	userInput["City"] = request.GET['City']
+	userInput["deviceId"] = request.GET['deviceId']
+	userInput["StartTime"] = request.GET['StartTime']
+	userInput["EndTime"] = request.GET['EndTime']
+	userInput["StartDate"]=request.GET['StartDate']
+	userInput["EndDate"]=request.GET['EndDate']
+	userInput["Visited"]=request.GET['Visited']
+	userInput['Interest']=request.GET['Interest']
+	userInput['StayLocation']=request.GET['StayLocation']
+
+	response_data["UserInput"]=userInput
 	
 	count=0
-	
+
+	module_dir = os.path.dirname(__file__)  # get current directory
+	file_path = os.path.join(module_dir, "Mumbai_details.xlsx")
+	book = xlrd.open_workbook(file_path)
+	worksheet = book.sheet_by_index(0)
+
 	plan_obj={}
 	days=[]
 
@@ -41,12 +59,27 @@ def MakeJson(bestPlan,Data,Parameters):
 		for j in range (no_of_locations[i]):
 			elements=OrderedDict()
 			elements["locationId"]=locationId[count]
-			elements["Name"]=names[count]
 			elements["latitude"]=str(latitudes[count])
 			elements["longitude"]=str(longitudes[count])
 			elements["Start_time"]=str(start[count])
 			elements["End_time"]=str(end[count])
 			elements["Free_time"]=str(free[count])
+			if (j==0):
+				elements["Name"]= "Home/Start"
+				elements["Description"]= " "
+				elements["Timings"]= ""
+				elements["Comment"] = ""
+			elif (j==no_of_locations[i]-1):
+				elements["Name"]= "Home"
+				elements["Description"]= " "
+				elements["Timings"]= ""
+				elements["Comment"] = ""
+			else:
+				elements["Name"]= worksheet.cell(locationId[count]+1,0).value
+				elements["Description"]= worksheet.cell(locationId[count]+1,4).value
+				elements["Timings"]= worksheet.cell(locationId[count]+1,2).value
+				elements["Comment"] = worksheet.cell(locationId[count]+1,3).value
+
 			count=count+1
 			location_list.append(elements)
 		location_obj["location"]=location_list

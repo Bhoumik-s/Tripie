@@ -12,7 +12,7 @@ def home(request):
 
 	
 	plan = MakePlan(Parameters)
-	json = MakeJson(plan[0],plan[1],Parameters)
+	json = MakeJson(plan[0],plan[1],Parameters,request)
 
 	
 
