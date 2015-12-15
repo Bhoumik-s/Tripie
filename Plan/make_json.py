@@ -46,7 +46,7 @@ def MakeJson(bestPlan,Data,Parameters,request):
 	count=0
 
 	module_dir = os.path.dirname(__file__)  # get current directory
-	file_path = os.path.join(module_dir, "Mumbai_details.xlsx")
+	file_path = os.path.join(module_dir, "Mumbai.xlsx")
 	book = xlrd.open_workbook(file_path)
 	worksheet = book.sheet_by_index(0)
 
@@ -75,10 +75,10 @@ def MakeJson(bestPlan,Data,Parameters,request):
 				elements["Timings"]= ""
 				elements["Comment"] = ""
 			else:
-				elements["Name"]= worksheet.cell(locationId[count]+1,0).value
-				elements["Description"]= worksheet.cell(locationId[count]+1,4).value
-				elements["Timings"]= worksheet.cell(locationId[count]+1,2).value
-				elements["Comment"] = worksheet.cell(locationId[count]+1,3).value
+				elements["Name"]= worksheet.cell(locationId[count]+1,13).value
+				elements["Description"]= worksheet.cell(locationId[count]+1,16).value
+				elements["Timings"]= worksheet.cell(locationId[count]+1,14).value
+				elements["Comment"] = worksheet.cell(locationId[count]+1,15).value
 
 			count=count+1
 			location_list.append(elements)

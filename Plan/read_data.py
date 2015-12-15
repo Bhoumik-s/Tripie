@@ -11,8 +11,8 @@ def ReadData(file):
     data=np.zeros((worksheet.nrows-1,worksheet.ncols-1))
     name=[]
     for i in range (worksheet.nrows-1):
-        for j in range (worksheet.ncols-1):
-            data[i][j]=worksheet.cell(i+1,j+1).value
+        for j in range (13):
+            data[i][j]=worksheet.cell(i+1,j).value
     return data
 
 
