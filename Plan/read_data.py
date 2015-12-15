@@ -12,7 +12,6 @@ def ReadData(file):
     name=[]
     for i in range (worksheet.nrows-1):
         for j in range (13):
-            print worksheet.cell(i+1,j).value
             data[i][j]=worksheet.cell(i+1,j).value
     return data
 
