@@ -2,7 +2,7 @@ from collections import OrderedDict
 import json
 import os
 import xlrd
-import getpass
+import time
 
 def MakeJson(bestPlan,Data,Parameters,request):
 	no_of_locations=[]
@@ -92,8 +92,10 @@ def MakeJson(bestPlan,Data,Parameters,request):
 	if not os.path.exists(DIR):
 		os.makedirs(DIR)
 
-	fileName= len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-	file_path = os.path.join(DIR, str(fileName+1))
+	#fileName= len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+	fileName = time.strftime("%H:%M_%d:%m")
+	file_path = os.path.join(DIR, fileName)
+	
 
 	with open(file_path, 'w') as outfile:
 		outfile.write(json.dumps(response_data,outfile, indent=4, separators=(',', ': ')))

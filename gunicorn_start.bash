@@ -7,7 +7,7 @@ NUM_WORKERS=3                                     # how many worker processes sh
 DJANGO_SETTINGS_MODULE=Tripie.settings             # which settings file should Django use
 DJANGO_WSGI_MODULE=Tripie.wsgi                     # WSGI module name
 
-#echo "Starting $NAME as `whoami`"
+echo "Starting $NAME as `whoami`"
 
 # Activate the virtual environment
 cd $DJANGODIR
