@@ -94,7 +94,7 @@ def MakeJson(bestPlan,Data,Parameters,request):
 		os.makedirs(DIR)
 
 	#fileName= len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-	fileName = time.strftime("%H:%M_%d:%m")
+	fileName = time.strftime("%H:%M:%S_%d:%m")
 	print fileName
 	file_path = os.path.join(DIR, fileName)
 	
