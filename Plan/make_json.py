@@ -67,19 +67,22 @@ def MakeJson(bestPlan,Data,Parameters,request):
 			elements["Free_time"]=str(free[count])
 			if (j==0):
 				elements["Name"]= "Home/Start"
-				elements["Description"]= " "
+				elements["Description"]= " You start your journey from here"
 				elements["Timings"]= ""
 				elements["Comment"] = ""
+				elements["Comment2"] = ""
 			elif (j==no_of_locations[i]-1):
 				elements["Name"]= "Home"
-				elements["Description"]= " "
+				elements["Description"]= "I hope you enjoyed your day, See you tomorrow."
 				elements["Timings"]= ""
 				elements["Comment"] = ""
+				elements["Comment2"] = ""
 			else:
 				elements["Name"]= worksheet.cell(locationId[count]+1,13).value
-				elements["Description"]= worksheet.cell(locationId[count]+1,16).value
+				elements["Description"]= worksheet.cell(locationId[count]+1,15).value
 				elements["Timings"]= worksheet.cell(locationId[count]+1,14).value
-				elements["Comment"] = worksheet.cell(locationId[count]+1,15).value
+				elements["Comment"] = worksheet.cell(locationId[count]+1,16).value
+				elements["Comment2"] = worksheet.cell(locationId[count]+1,17).value
 
 			count=count+1
 			location_list.append(elements)

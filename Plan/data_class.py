@@ -69,6 +69,7 @@ class DataClass():
 				for j in range(2):
 					self.TRAVELTIME[self.n+2*i+j,0:self.n]=stayDuration
 					self.TRAVELTIME[0:self.n,self.n+2*i+j]=stayDuration[:]
+		self.TRAVELTIME = self.TRAVELTIME * 1.2
 
 		for i in range (DAYS):
 			for j in range(2):		
