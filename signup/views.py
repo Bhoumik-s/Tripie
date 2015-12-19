@@ -4,6 +4,7 @@ from xlrd import open_workbook
 from xlutils.copy import copy
 from django.http import HttpResponse
 import os
+import time
 
 def CheckId(deviceId,mob):
 	module_dir = os.path.dirname(__file__)  # get current directory
@@ -14,10 +15,15 @@ def CheckId(deviceId,mob):
 	for i in range (n-1):
 		if (deviceId==worksheet.cell(i+1,1).value):
 			return True
+	signUpDate = time.strftime("%d/%m/%y")
+	signUpTime = time.strftime("%H:%M:%S")
 	book = copy(oldBook)
 	sheet = book.get_sheet(0)
 	sheet.write(n,0,mob)
 	sheet.write(n,1,deviceId)
+	sheet.write(n,2,signUpTime)
+	sheet.write(n,3,signUpDate)
+
 	book.save(file_path)
 	return False
 	
