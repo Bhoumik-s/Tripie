@@ -5,6 +5,7 @@ from xlutils.copy import copy
 from django.http import HttpResponse
 import os
 import time
+from django.utils import timezone
 
 def CheckId(deviceId,mob):
 	module_dir = os.path.dirname(__file__)  # get current directory
@@ -24,11 +25,13 @@ def CheckId(deviceId,mob):
 	sheet.write(n,2,signUpTime)
 	sheet.write(n,3,signUpDate)
 
+
 	book.save(file_path)
 	return False
 	
 # Create your views here.
 def home(request):
+
 	mob=request.GET['mob']
 	deviceId=request.GET['deviceId']
 	CheckId(deviceId,mob)

@@ -5,6 +5,7 @@ from variables_class import PlanVariables
 from metaheuristic import MetaH1,MetaH2,MetaH3
 import numpy as np
 import time
+#from xlstosql import makedb
 
 MAXITERATIONS=15
 
@@ -16,6 +17,8 @@ MAXITERATIONS=15
 def MakePlan(Parameters):
 	
 	STARTTIME = time.time()
+	#makedb()
+	#print "dbCreated: ", time.time()-STARTTIME
 	Data=DataClass(Parameters)
 	
 	#print time.time()-STARTTIME
