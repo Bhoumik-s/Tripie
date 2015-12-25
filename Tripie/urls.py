@@ -18,7 +18,7 @@ from django.contrib import admin
 import Plan
 import signup
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/admin/', include(admin.site.urls)),
     url(r'^api/Plan/', include('Plan.urls')),
     url(r'^api/signup/', include('signup.urls')),
     
