@@ -24,13 +24,13 @@ class ParameterClass():
 		firstCondition = [
 						[self.startLocation[0],self.startLocation[1],
 						self.stayLocation[0],self.stayLocation[1],
-						self.startTime, 1080 + self.interest[3] * 90]
+						self.startTime, 1050 + self.interest[3] * 90]
 						]
 
 		midCondition = [
 						self.startLocation[0],self.startLocation[1],
 						self.stayLocation[0],self.stayLocation[1],
-						240 + self.interest[3] * 60, 1080 + self.interest[3] * 90
+						240 + self.interest[3] * 60, 1050 + self.interest[3] * 90
 						]
 
 		for i in range (self.days-1):
