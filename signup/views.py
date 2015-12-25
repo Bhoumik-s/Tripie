@@ -6,6 +6,8 @@ from django.http import HttpResponse
 import os
 import time
 from django.utils import timezone
+from .models import User_db
+from django.utils import timezone
 
 def CheckId(deviceId,mob):
 	module_dir = os.path.dirname(__file__)  # get current directory
@@ -24,9 +26,12 @@ def CheckId(deviceId,mob):
 	sheet.write(n,1,deviceId)
 	sheet.write(n,2,signUpTime)
 	sheet.write(n,3,signUpDate)
-
-
 	book.save(file_path)
+	
+	if not User_db.objects.filter(deviceId=deviceId).exists():
+		user = User_db(deviceId=deviceId,mobile=mob,accessToken=deviceId)
+		user.save()
+
 	return False
 	
 # Create your views here.

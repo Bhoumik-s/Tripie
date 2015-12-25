@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 # Create your models here.
-class Users(models.Model):
+class User_db(models.Model):
     deviceId = models.CharField(max_length=16)
     mobile = models.CharField('Mobile',max_length=13)
     created = models.DateTimeField(default=timezone.now)
