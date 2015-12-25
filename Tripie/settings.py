@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    #'Plan.apps.PlanConfig',
-    #'signup.apps.SignupConfig',
+    'Plan.apps.PlanConfig',
+    'signup.apps.SignupConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'Tripie.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Tripie_db',
-        'USER': 'root',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tripie_db',
+        'USER': 'tripie_dbuser',
         'PASSWORD': 'science123',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
