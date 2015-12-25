@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'Plan.apps.PlanConfig',
-    'signup.apps.SignupConfig',
+    #'Plan.apps.PlanConfig',
+    #'signup.apps.SignupConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
