@@ -38,9 +38,10 @@ class ParameterClass():
 
 		self.boundryConditions = np.asarray(firstCondition)	
 		self.boundryConditions[-1,5] = self.endTime
+		self.boundryConditions[-1,4] = min(self.endTime,self.boundryConditions[-1,4])
 
 		self.timeMultiplier = min(6, 0.5 + sum([5,2.5,2,1.5,2] * self.interest[:]) )
 		
 
 		#print self.days
-		print self.boundryConditions
+		#print self.boundryConditions
