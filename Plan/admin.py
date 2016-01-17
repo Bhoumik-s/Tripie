@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Mumbai_db
-
+from .models import *
 
 
 # Register your models here.
-admin.site.register(Mumbai_db)
+admin.site.register(MumbaiLocation)
+admin.site.register(Tag)
+admin.site.register(MumbaiTagLocation)

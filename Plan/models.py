@@ -1,30 +1,47 @@
 from django.db import models
 
 # Create your models here.
-class Mumbai_db(models.Model):
+class MumbaiLocation(models.Model):
+	LocationId = models.AutoField(primary_key=True, default=0)
+	Name = models.CharField(max_length=100)
+	Latitude = models.DecimalField(max_digits=10, decimal_places=7)
+	Longitude = models.DecimalField(max_digits=10, decimal_places=7)
+	OpenTime = models.TimeField(default="09:00:00")
+	DueTime = models.TimeField(default="17:00:00")
+	ServiceTime = models.DurationField(default="01:00:00")
+	GeneralInfo = models.FilePathField(path = "./")
+	Cost = models.PositiveIntegerField(default=0)
+	# DaysOpen = models.
+	# defaultHappiness = models.PositiveSmallIntegerField()
+	# sightSeeing = models.PositiveSmallIntegerField()
+	# religious = models.PositiveSmallIntegerField()
+	# amusement = models.PositiveSmallIntegerField()
+	# nightLife = models.PositiveSmallIntegerField()
+	# shopping = models.PositiveSmallIntegerField()
 
-	placeId = models.PositiveSmallIntegerField()
-	name = models.CharField(max_length=50)
-	latitude = models.DecimalField(max_digits=10, decimal_places=7)
-	longitude = models.DecimalField(max_digits=10, decimal_places=7)
-	openTime = models.PositiveSmallIntegerField(help_text="minutes since 5AM")
-	dueTime = models.PositiveSmallIntegerField(help_text="minutes since 5AM")
-	serviceTime = models.PositiveSmallIntegerField(help_text="In minutes")
-	
-	defaultHappiness = models.PositiveSmallIntegerField()
-	sightSeeing = models.PositiveSmallIntegerField()
-	religious = models.PositiveSmallIntegerField()
-	amusement = models.PositiveSmallIntegerField()
-	nightLife = models.PositiveSmallIntegerField()
-	shopping = models.PositiveSmallIntegerField()
-
-	cost = models.PositiveSmallIntegerField()
 
 
-	timings = models.CharField(max_length=20,help_text="e.g: 9:30 AM - 12:45 PM")
-	description = models.TextField()
-	comment1 = models.TextField()
-	comment2 = models.TextField()
+	# timings = models.CharField(max_length=20,help_text="e.g: 9:30 AM - 12:45 PM")
+	# description = models.TextField()
+	# comment1 = models.TextField()
+	# comment2 = models.TextField()
 
 	def __str__(self):
-		return self.name
+		return self.Name
+
+class Tag(models.Model):
+	TagId = models.AutoField(primary_key = True, default = 0)
+	TagName = models.CharField(max_length=50)
+	TagInfo = models.CharField(max_length=200)
+	def __str__(self):
+		return self.TagName	
+
+class MumbaiTagLocation(models.Model):
+	TagId = models.ForeignKey("Tag")
+	LocationId = models.ForeignKey("MumbaiLocation")
+	Weightage = models.PositiveSmallIntegerField(default = 1)
+	def __str__(self):
+		return str(self.TagId) + "-" + str(self.LocationId )+ " : " + str(self.Weightage)
+
+
+
