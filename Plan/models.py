@@ -43,5 +43,20 @@ class MumbaiTagLocation(models.Model):
 	def __str__(self):
 		return str(self.TagId) + "-" + str(self.LocationId )+ " : " + str(self.Weightage)
 
+class Route(models.Model):
+	RouteId = models.AutoField(primary_key=True, default=0)
+	Destination1 = models.ForeignKey("MumbaiLocation", related_name = "Destination1")
+	Destination2 = models.ForeignKey("MumbaiLocation", related_name = "Destination2")
+	Slot11 = models.DurationField(default="00:30:00")
+	Slot21 = models.DurationField(default="00:30:00")
+	Slot31 = models.DurationField(default="00:30:00")
+	Slot41 = models.DurationField(default="00:30:00")
+	Slot51 = models.DurationField(default="00:30:00")
+	Slot12 = models.DurationField(default="00:30:00")
+	Slot22 = models.DurationField(default="00:30:00")
+	Slot32 = models.DurationField(default="00:30:00")
+	Slot42 = models.DurationField(default="00:30:00")
+	Slot52 = models.DurationField(default="00:30:00")
 
-
+	def __str__(self):
+		return str(self.Destination1) + "-" + str(self.Destination2)
