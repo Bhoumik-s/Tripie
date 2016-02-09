@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(MumbaiLocation)
 admin.site.register(Tag)
 admin.site.register(MumbaiTagLocation)
+admin.site.register(Route)

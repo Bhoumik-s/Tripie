@@ -6,7 +6,7 @@ from django.http import HttpResponse
 import os
 import time
 from django.utils import timezone
-from .models import User_db
+from .models import User
 from django.utils import timezone
 
 def CheckId(deviceId,mob):
@@ -28,8 +28,8 @@ def CheckId(deviceId,mob):
 	sheet.write(n,3,signUpDate)
 	book.save(file_path)
 	
-	if not User_db.objects.filter(deviceId=deviceId).exists():
-		user = User_db(deviceId=deviceId,mobile=mob,accessToken=deviceId)
+	if not User.objects.filter(deviceId=deviceId).exists():
+		user = User(deviceId=deviceId,mobile=mob,accessToken=deviceId)
 		user.save()
 
 	return False

@@ -12,10 +12,10 @@ class User(models.Model):
 	EmailId = models.EmailField()
 	FbId = models.CharField(max_length = 25)
 	GoogleId = models.CharField(max_length = 25)
-	EconomyStatus = models.PositiveSmallIntegerField()
+	# EconomyStatus = models.PositiveSmallIntegerField()
 
 	def __str__(self):
-	    return self.EmailField
+	    return self.Name
 
 
 
