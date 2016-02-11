@@ -35,13 +35,11 @@ def Status(Plan,Data,timeMultiplier):
 	# for each day time to return should be less than T_max
 	# Return time = arrival time(a) at final point
 	def TimeConstraint():
-		boolean=True
 		for k in range(Data.DAYS):
-			boolean= (boolean and (Plan.a[Data.n+2*k+1,k]<=Data.TMAX[k]))
-		if boolean:
-			return [boolean,Objective()]
-		else:
-			return [False,2]
+			if not Plan.a[Data.n+2*k+1,k]<=Data.TMAX[k] :
+				return [False, 2]
+		return [boolean,Objective()]
+
 
 
 	#Service start time at each point <= closingTime
@@ -49,11 +47,9 @@ def Status(Plan,Data,timeMultiplier):
 		boolean=True
 		for k in range(Data.DAYS):
 			for i in range (Data.n):
-				boolean=(boolean and (pi[i,k]<=Data.CLOSETIME[i]))
-		if boolean:
-			return TimeConstraint()
-		else:
-			return [False,1]
+				if not (pi[i,k]<=Data.CLOSETIME[i]):
+					return [False,1]
+		return TimeConstraint()
 
 	return (TimeWindowConstraint())
 
