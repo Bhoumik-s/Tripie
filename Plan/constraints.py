@@ -15,22 +15,22 @@ def Status(Plan,Data,timeMultiplier):
 		for i in range(Data.DAYS):
 			for j in range (Data.n):
 				happiness=happiness+Data.HAPPINESS[j]*y[j,i]
-		for k in range(Data.DAYS):
-			for j in range (Data.n):
-				for i in range (Data.n):
-					happiness=happiness-x[i,j,k]*Data.TRAVELTIME[i,j]*timeMultiplier
+		# for k in range(Data.DAYS):
+		# 	for j in range (Data.n):
+		# 		for i in range (Data.n):
+		# 			happiness=happiness-x[i,j,k]*Data.TRAVELTIME[i,j]*timeMultiplier
 		return happiness
 
-	'''def BudgetConstraint():
+	def BudgetConstraint():
 		sum1=0
 		for k in range(Data.DAYS):
+			sum1 = 0
 			for i in range(Data.n):
 				sum1=sum1+Data.COST[i]*y[i,k]
-		boolean=(sum1<=Data.BUDGET)
-		if boolean:
-			return [boolean,Objective()]
-		else:
-			return [False,3]'''
+			boolean=(sum1<=Data.BUDGET)
+			if boolean == False:
+				return [False,3]
+		return [True,Objective()]
 
 	# for each day time to return should be less than T_max
 	# Return time = arrival time(a) at final point
@@ -38,7 +38,7 @@ def Status(Plan,Data,timeMultiplier):
 		for k in range(Data.DAYS):
 			if not Plan.a[Data.n+2*k+1,k]<=Data.TMAX[k] :
 				return [False, 2]
-		return [boolean,Objective()]
+		return [True,Objective()]
 
 
 
